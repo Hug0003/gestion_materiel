@@ -12,25 +12,25 @@ def init_database():
     cursor.executescript("""         
         CREATE TABLE IF NOT EXISTS equipement(
             id_equipement INTEGER PRIMARY KEY AUTOINCREMENT,
-            type VARCHAR(255)
+            type VARCHAR(255) NOT NULL CHECK(LENGTH(TRIM(type)) > 0 AND LENGTH(type) <= 255)
         );
         
         CREATE TABLE IF NOT EXISTS technicien(
             id_technicien INTEGER PRIMARY KEY AUTOINCREMENT,
-            nom VARCHAR(255),
-            prenom VARCHAR(255)
+            nom VARCHAR(255) NOT NULL CHECK(LENGTH(TRIM(nom)) > 0 AND LENGTH(nom) <= 255),
+            prenom VARCHAR(255) NOT NULL CHECK(LENGTH(TRIM(prenom)) > 0 AND LENGTH(prenom) <= 255)
         );
 
         CREATE TABLE IF NOT EXISTS intervention(
             id_intervention INTEGER PRIMARY KEY AUTOINCREMENT,
-            id_equipement INTEGER,
-            id_technicien INTEGER,
-            date DATE,
-            duree TIME,
-            type VARCHAR(255),
-            cout INT,
-            FOREIGN KEY (id_equipement) REFERENCES equipements(id_equipement),
-            FOREIGN KEY (id_technicien) REFERENCES technicien(id_technicien)
+            id_equipement INTEGER NOT NULL,
+            id_technicien INTEGER NOT NULL,
+            date DATE NOT NULL CHECK(date >= '1900-01-01' AND date <= '2100-12-31'),
+            duree TIME NOT NULL,
+            type VARCHAR(255) NOT NULL CHECK(LENGTH(TRIM(type)) > 0 AND LENGTH(type) <= 255),
+            cout REAL NOT NULL CHECK(cout >= 0),
+            FOREIGN KEY (id_equipement) REFERENCES equipement(id_equipement) ON DELETE CASCADE,
+            FOREIGN KEY (id_technicien) REFERENCES technicien(id_technicien) ON DELETE CASCADE
         );
 
                                     

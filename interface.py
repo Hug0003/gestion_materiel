@@ -302,18 +302,38 @@ class GestionMaterielApp:
             messagebox.showwarning("Erreur", "Veuillez remplir tous les champs")
             return
         
+        # Validation du coût (règle métier)
+        try:
+            cout_valide = float(cout)
+            if cout_valide < 0:
+                messagebox.showerror("Erreur de validation", "Le coût ne peut pas être négatif (doit être >= 0)")
+                return
+        except ValueError:
+            messagebox.showerror("Erreur de validation", "Le coût doit être un nombre valide")
+            return
+        
         # Extraire l'ID du combo
         eq_id = eq_id.split(" - ")[0]
         tech_id = tech_id.split(" - ")[0]
         
         conn = get_connection()
-        cursor = conn.cursor()
-        cursor.execute(
-            "INSERT INTO intervention(id_equipement, id_technicien, date, duree, type, cout) VALUES(?, ?, ?, ?, ?, ?)",
-            (eq_id, tech_id, date, duree, type_int, cout)
-        )
-        conn.commit()
-        conn.close()
+        try:
+            cursor = conn.cursor()
+            cursor.execute(
+                "INSERT INTO intervention(id_equipement, id_technicien, date, duree, type, cout) VALUES(?, ?, ?, ?, ?, ?)",
+                (eq_id, tech_id, date, duree, type_int, cout_valide)
+            )
+            conn.commit()
+        except sqlite3.IntegrityError as e:
+            conn.close()
+            messagebox.showerror("Erreur d'intégrité", f"Erreur lors de l'insertion : {str(e)}")
+            return
+        except Exception as e:
+            conn.close()
+            messagebox.showerror("Erreur", f"Erreur inattendue : {str(e)}")
+            return
+        finally:
+            conn.close()
         
         self.entry_date.delete(0, tk.END)
         self.entry_date.insert(0, "YYYY-MM-DD")
