@@ -190,7 +190,7 @@ class GestionMaterielApp:
                    command=self.show_frequence_interventions, width=40).pack(pady=5)
         ttk.Button(stats_frame, text="Afficher le temps moyen d'un intervention", 
                    command=self.show_AVG_time, width=40).pack(pady=5)
-        ttk.Button(stats_frame, text="Afficher l'equipement socilité en interventions", 
+        ttk.Button(stats_frame, text="Afficher l'equipement le plus socilité en interventions", 
                    command=self.show_equipement_solicite, width=40).pack(pady=5)
         ttk.Button(stats_frame, text="Afficher le coût moyen", 
                    command=self.show_AVG_cost, width=40).pack(pady=5)

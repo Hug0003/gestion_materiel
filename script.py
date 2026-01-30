@@ -33,7 +33,7 @@ def init_database():
             FOREIGN KEY (id_technicien) REFERENCES technicien(id_technicien)
         );
 
-                         /*             
+                                    
         INSERT INTO intervention(id_equipement, id_technicien, date, duree, type, cout) VALUES("2","1", "2026-01-30", "01:30:00", "injection SQL", "10000");
         INSERT INTO intervention(id_equipement, id_technicien, date, duree, type, cout) VALUES("1","2", "2026-02-14", "5:30:00", "incendie", "50000");
         INSERT INTO intervention(id_equipement, id_technicien, date, duree, type, cout) VALUES("3", "1", "2026-02-14", "7:00:00", "van dijk", "15000000");
@@ -45,7 +45,7 @@ def init_database():
                          
         INSERT INTO technicien(nom, prenom) VALUES("COURAULT", "Edouard");
         INSERT INTO technicien(nom, prenom) VALUES("MEURIEL", "Hugo");
-                         */
+                         
     """)
     
     conn.commit()
